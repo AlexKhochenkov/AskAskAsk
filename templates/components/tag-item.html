@@ -1,0 +1,7 @@
+{% load static %}
+
+<span class="badge bg-warning">
+    <a href="{% url 'tag' tag_name=tag.name %}" class='link-danger link-underline link-underline-opacity-0 link-underline-opacity-100-hover'>
+        {{ tag.name }} ({{tag.question_num}})
+    </a>
+</span>

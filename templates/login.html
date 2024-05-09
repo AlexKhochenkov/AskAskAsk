@@ -1,0 +1,18 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<h1 class="one-question-title">Log in</h1>
+<a class="btn btn-warning mb-4" href="{% url 'signup' %}" type="submit">Sign up</a>
+
+{% load django_bootstrap5 %}
+
+<form method="post">
+    {% csrf_token %}
+    {% bootstrap_form  form %}
+    <button type="submit" class="btn btn-primary">Log in</button>
+  </form>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+<h1>Settings</h1>
+
+{% load django_bootstrap5 %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form  settingsform %}
+    {% bootstrap_form  profileform %}
+    {% if request.user.profile.avatar %}
+    <div style="width: 300px">
+      <img src="{{request.user.profile.avatar.url}}" alt="Profile Avatar" calss="w-100"/>
+    </div>
+    {% endif %}
+    <button type="submit" class="btn btn-primary mt-2">Save</button>
+  </form>
+
+{% endblock %}

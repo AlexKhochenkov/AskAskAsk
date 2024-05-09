@@ -1,0 +1,91 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+{% include 'components/question-item.html' %}
+
+<hr/>
+
+{% for answer in answers %}
+
+{% include "components/answer-item.html" %}
+
+{% endfor %}
+
+{% include "components/pagination-item.html" %}
+
+<hr/>
+<h1>Your Answer:</h1>
+
+{% load django_bootstrap5 %}
+
+<form method="post">
+    {% csrf_token %}
+    {% bootstrap_form  form %}
+    <button type="submit" class="btn btn-primary">Answer</button>
+  </form>
+
+  <script src="https://unpkg.com/centrifuge@5.0.1/dist/centrifuge.js"></script>
+  <script type="text/javascript">
+    var referenceElement = document.getElementsByClassName("pag");
+
+    const centrifuge = new Centrifuge("{{ centrifugo.ws_url }}", {
+      token: "{{ centrifugo.token }}"
+    });
+
+    centrifuge.on('connecting', function (ctx) {
+      console.log(`connecting: ${ctx.code}, ${ctx.reason}`);
+    }).on('connected', function (ctx) {
+      console.log(`connected over ${ctx.transport}`);
+    }).on('disconnected', function (ctx) {
+      console.log(`disconnected: ${ctx.code}, ${ctx.reason}`);
+    }).connect();
+
+    const sub = centrifuge.newSubscription("{{ centrifugo.channel }}");
+
+    sub.on('publication', function (ctx) {
+      content=ctx.data.content;
+      user=ctx.data.user;
+      var newAnswerItem = document.createElement("div");
+      newAnswerItem.innerHTML = `<div class="col-3">
+        <img src="../static/img/Question.jpeg" alt="FirstQuestionImg" class="p-1 question-image">
+        <div class="p-1 row justify-content-start answer-like-section">
+          <div class="col-4">
+            <button class="btn btn-outline-success btn-sm" type="submit">Like!</button>
+          </div>
+          <div class="col-1 align-self-center">
+            <span>0</span>
+          </div>
+          <div class="col-5">
+            <button class="btn btn-outline-danger btn-sm" type="submit">Dislike!</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-9 d-flex flex-column position-static">
+        <div class="question-text mb-auto">${ content }</div>
+            <div class="row align-items-end">
+                <div class="form-check mt-2 ms-3 col-5 answer-correct">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
+                    <label class="form-check-label" for="flexCheckDefault">
+                    Correct answer
+                    </label>
+                </div>
+                <div class="col-7">
+                  User: ${ user }
+                </div>
+            </div>
+      </div>
+      `;
+      newAnswerItem.className="row answer";
+      referenceElement[0].parentNode.insertBefore(newAnswerItem, referenceElement[0]);
+      console.log(ctx);
+    }).on('subscribing', function (ctx) {
+      console.log(`subscribing: ${ctx.code}, ${ctx.reason}`);
+    }).on('subscribed', function (ctx) {
+      console.log('subscribed', ctx);
+    }).on('unsubscribed', function (ctx) {
+      console.log(`unsubscribed: ${ctx.code}, ${ctx.reason}`);
+    }).subscribe();
+  </script>
+
+{% endblock %}

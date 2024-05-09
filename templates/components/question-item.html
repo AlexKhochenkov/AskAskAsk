@@ -1,0 +1,46 @@
+{% load static %}
+<div class="row question">
+    <div class="col-3">
+      <img src="{% static '/img/Question.jpeg' %}" alt="FirstQuestionImg" class="p-1 question-image">
+      {% if question.raiting or question.raiting == 0 %}
+      <div class="p-1 row justify-content-start like-section">
+        <div class="col-4">
+          <button class="btn btn-outline-success btn-sm" data-id="{{question.id}}" type="submit">Like!</button>
+        </div>
+        <div class="col-1 align-self-center">
+          <span>{{ question.raiting }}</span>
+        </div>
+        <div class="col-5">
+          <button class="btn btn-outline-danger btn-sm" data-id="{{question.id}}" type="submit">Dislike!</button>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <div class="col-9 d-flex flex-column position-static">
+      <div class="question-title mb-1">
+        <a href="{% url 'question' question_id=question.id %}">{{ question.title }}</a>
+      </div>
+      <div class="question-text text-truncate mb-auto">
+        {{ question.content }}
+      </div>
+      <div class='row'>
+        <div class='col-4'>
+      Date: {{ question.date_written }}
+        </div>
+        <div class='col-8'>
+          User: {{ question.user }}
+        </div>
+        </div>
+        <div class="row align-items-end">
+          <div class="col-4 mb-2">
+            <a href="{% url 'question' question_id=question.id %}">Answers({{ question.answers.count }})</a>
+          </div>
+          <div class="col-8 mb-2">
+            Tags: 
+            {% for tag in question.tags.all %}
+            <a href="{% url 'tag' tag_name=tag %}">{{ tag }}</a>
+            {% endfor %}
+          </div>
+        </div>
+    </div>
+  </div>

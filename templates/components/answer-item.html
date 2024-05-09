@@ -1,0 +1,58 @@
+{% load static %}
+<div class="row answer" id={{answer.id}}>
+    <div class="col-3">
+      <img src="../static/img/Question.jpeg" alt="FirstQuestionImg" class="p-1 question-image">
+      <div class="p-1 row justify-content-start answer-like-section">
+        <div class="col-4">
+          <button class="btn btn-outline-success btn-sm" data-id="{{answer.id}}" type="submit">Like!</button>
+        </div>
+        <div class="col-1 align-self-center">
+          <span>{{ answer.raiting }}</span>
+        </div>
+        <div class="col-5">
+          <button class="btn btn-outline-danger btn-sm" data-id="{{answer.id}}" type="submit">Dislike!</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-9 d-flex flex-column position-static">
+      <div class="question-text mb-auto">{{ answer.content }}</div>
+          <div class="row align-items-end">
+            {% if request.user == question.user %}
+            {% if not answer.correct %}
+              <div class="form-check mt-2 ms-3 col-5 answer-correct">
+                  <input class="form-check-input" data-answerid="{{answer.id}}" data-questionid="{{question.id}}" type="checkbox" value="" id="flexCheckDefault">
+                  <label class="form-check-label" for="flexCheckDefault">
+                  Correct answer
+                  </label>
+              </div>
+            {% else %}
+            <div class="form-check mt-2 ms-3 col-5 answer-correct">
+              <input class="form-check-input" data-answerid="{{answer.id}}" data-questionid="{{question.id}}" type="checkbox" value="" id="flexCheckDefault" checked>
+              <label class="form-check-label" for="flexCheckDefault">
+              Correct answer
+              </label>
+          </div>
+          {% endif %}
+          {% else %}
+          {% if not answer.correct %}
+              <div class="form-check mt-2 ms-3 col-5 answer-correct">
+                  <input class="form-check-input" data-answerid="{{answer.id}}" data-questionid="{{question.id}}" type="checkbox" value="" id="flexCheckDefault" disabled>
+                  <label class="form-check-label" for="flexCheckDefault">
+                  Correct answer
+                  </label>
+              </div>
+            {% else %}
+            <div class="form-check mt-2 ms-3 col-5 answer-correct">
+              <input class="form-check-input" data-answerid="{{answer.id}}" data-questionid="{{question.id}}" type="checkbox" value="" id="flexCheckDefault" checked disabled>
+              <label class="form-check-label" for="flexCheckDefault">
+              Correct answer
+              </label>
+          </div>
+          {% endif %}
+          {% endif %}
+              <div class='col-7'>
+                User: {{ answer.user }}
+              </div>
+          </div>
+    </div>
+  </div>

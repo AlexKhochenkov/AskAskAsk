@@ -1,0 +1,135 @@
+{% load static %}
+{% csrf_token %}
+
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+
+    
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static '/css/bootstrap.css' %}" rel="stylesheet">
+    
+    
+    
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="{% static '/css/main.css' %}" rel="stylesheet">
+</head>
+<body class="d-flex flex-column h-100">
+    
+<header>
+    <!-- Fixed navbar -->
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'index' %}">AskAskAsk</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+      <div class="align-items-baseline collapse navbar-collapse" id="navbarCollapse">
+          <form class="d-flex w-100 me-3">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <a class="btn btn-outline-success" href="{% url 'ask' %}" type="submit">Ask!</a>
+        </form>
+        <div class="flex-shrink-0">
+          {% if not user.is_authenticated %}
+          <div class="col-12 me-4">
+            <a class="btn btn-outline-danger" href="{% url 'login' %}?continue={{request.path}}" type="submit">Log in</a>
+          </div>
+          {% else %}
+          <div class="row">
+            <div class="col-3">
+              <img src={{request.user.profile.avatar.url}} alt="Avatar" class="avatar">
+            </div>
+            <div class="col-9">
+                <div class="row">
+                <span class="nickname text-light">{{request.user.username}}</span>
+            </div>
+            <div class="row">
+              <div class="col-5">
+                <a class="btn btn-outline-warning" href="{% url 'settings' %}" type="submit">Settings</a>
+              </div>
+                <div class="col-7">
+                  <a class="btn btn-outline-danger" href="{% url 'login' %}?continue={{request.path}}" type="submit">Log out</a>
+                </div>
+              </div>
+            </div>
+              {% endif %}
+        </div>
+      </div>
+    </div>
+</nav>
+</header>
+
+<!-- Begin page content -->
+<main class="flex-shrink-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-8">
+        {% block content %}
+
+            Hello, it is empty block!
+
+            {% endblock %}
+        </div>
+      <!--RIGHT SIDE-->
+      <div class="col-4">
+        <div class="row">
+          <a href="{% url 'hot'%}" class="question-title link-danger">Hot questions</a>
+        </div>
+      <hr/>
+          <h2>Popular tags</h2>
+          <div class="tags mb-2">
+              
+            {% for tag in tags %}
+
+            {% include 'components/tag-item.html' %}
+
+            {% endfor %}
+
+          </div>
+        <hr/>
+          <h2>Best members</h2>
+          <ul class="list-group" style="max-width: 220px;">
+
+            {% for best_user in best_users %}
+
+            {% include 'components/best-user-item.html' %}
+
+            {% endfor %}
+
+          </ul>
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+    <span class="text-muted">AskAskAsk Corp.</span>
+  </div>
+</footer>
+
+
+<script src="{% static '/js/bootstrap.js' %}"></script>
+<script src="{% static  '/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static '/js/main.js' %}"></script>
+
+</body>
+</html>

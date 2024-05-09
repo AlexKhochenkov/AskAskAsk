@@ -1,0 +1,65 @@
+main > .container {
+    padding: 100px 15px 0;
+}
+
+
+.question {
+    border: 2px solid grey;
+    margin-top: 30px;
+    border-radius: 5px;
+    padding: 20 px;
+}
+
+
+.answer {
+    border: 2px solid grey;
+    margin-top: 30px;
+    border-radius: 5px;
+    padding: 20 px;
+}
+
+
+.question-image{
+    max-width: 150px;
+    max-height: 150px;
+
+}
+
+
+.question-title{
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif ;
+    font-weight: bold;
+}
+
+
+.one-question-title{
+    font-size: 60px;
+    font-family: Arial, Helvetica, sans-serif ;
+    font-weight: bold;
+}
+
+
+.question-text{
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 100;
+}
+
+
+.tags{
+    max-width: 150px;
+}
+
+
+.avatar{
+    max-width: 70px;
+    max-height: 70px;
+}
+
+
+.nickname{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 200;
+    font-size: 18px;
+}

@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+<h1>New Question</h1>
+
+{% load django_bootstrap5 %}
+
+<form method="post">
+    {% csrf_token %}
+    {% bootstrap_form  form %}
+    <button type="submit" class="btn btn-primary">Ask!</button>
+  </form>
+
+{% endblock %}
